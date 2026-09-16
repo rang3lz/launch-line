@@ -1,0 +1,445 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Launch Line — Tecnologia que conecta ideias a grandes resultados</title>
+<meta name="description" content="A Launch Line entende problemas reais de negócio e aplica inteligência artificial, automação, estratégia e tecnologia para gerar resultado.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'%3E%3Crect width='200' height='200' fill='black'/%3E%3Cpath d='M55.26,163.9 A78,78 0 1 1 144.74,163.9' fill='none' stroke='%23e4e4e8' stroke-width='7' stroke-linecap='round'/%3E%3Cpath d='M72,48 L72,136 L122,136' fill='none' stroke='%23e4e4e8' stroke-width='7.5' stroke-linecap='square'/%3E%3Cpath d='M100,74 L100,162 L150,162' fill='none' stroke='%23e4e4e8' stroke-width='7.5' stroke-linecap='square'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&family=Orbitron:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<!-- ============ SHARED SVG DEFS (LOGOMARK) ============ -->
+<svg width="0" height="0" style="position:absolute">
+  <defs>
+    <linearGradient id="metalGrad" x1="10%" y1="0%" x2="60%" y2="100%">
+      <stop offset="0%" stop-color="#8a8a90"/>
+      <stop offset="22%" stop-color="#f6f6f8"/>
+      <stop offset="40%" stop-color="#ffffff"/>
+      <stop offset="55%" stop-color="#9a9aa0"/>
+      <stop offset="78%" stop-color="#eceef2"/>
+      <stop offset="100%" stop-color="#7c7c82"/>
+    </linearGradient>
+    <filter id="markGlow" x="-60%" y="-60%" width="220%" height="220%">
+      <feGaussianBlur stdDeviation="2.2" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    <path id="mark-ring" d="M55.26,163.9 A78,78 0 1 1 144.74,163.9"/>
+    <path id="mark-l1" d="M72,48 L72,136 L122,136"/>
+    <path id="mark-l2" d="M100,74 L100,162 L150,162"/>
+    <symbol id="ll-mark" viewBox="18 10 164 178">
+      <g filter="url(#markGlow)">
+        <use href="#mark-ring" fill="none" stroke="url(#metalGrad)" stroke-width="5.5" stroke-linecap="round"/>
+        <use href="#mark-l1" fill="none" stroke="url(#metalGrad)" stroke-width="6" stroke-linecap="square" stroke-linejoin="miter"/>
+        <use href="#mark-l2" fill="none" stroke="url(#metalGrad)" stroke-width="6" stroke-linecap="square" stroke-linejoin="miter"/>
+        <circle cx="55.26" cy="163.9" r="2.6" fill="#fff"/>
+        <circle cx="144.74" cy="163.9" r="2.6" fill="#fff"/>
+        <circle cx="100" cy="22" r="2" fill="#fff"/>
+      </g>
+    </symbol>
+  </defs>
+</svg>
+
+<!-- ============ INTRO ============ -->
+<div id="intro">
+  <svg id="intro-svg" viewBox="18 10 164 178">
+    <path class="line-draw" id="draw-ring" d="M55.26,163.9 A78,78 0 1 1 144.74,163.9"/>
+    <path class="line-draw" id="draw-l1" d="M72,48 L72,136 L122,136" stroke-linecap="square" stroke-linejoin="miter"/>
+    <path class="line-draw" id="draw-l2" d="M100,74 L100,162 L150,162" stroke-linecap="square" stroke-linejoin="miter"/>
+    <g id="intro-fill" opacity="0">
+      <use href="#mark-ring" fill="none" stroke="url(#metalGrad)" stroke-width="5.5" stroke-linecap="round"/>
+      <use href="#mark-l1" fill="none" stroke="url(#metalGrad)" stroke-width="6" stroke-linecap="square" stroke-linejoin="miter"/>
+      <use href="#mark-l2" fill="none" stroke="url(#metalGrad)" stroke-width="6" stroke-linecap="square" stroke-linejoin="miter"/>
+      <circle cx="55.26" cy="163.9" r="2.6" fill="#fff"/>
+      <circle cx="144.74" cy="163.9" r="2.6" fill="#fff"/>
+      <circle cx="100" cy="22" r="2" fill="#fff"/>
+    </g>
+  </svg>
+  <div class="intro-word brand-wordmark">LAUNCH LINE</div>
+  <div class="intro-tag">TECNOLOGIA &nbsp;•&nbsp; ESTRATÉGIA &nbsp;•&nbsp; RESULTADOS</div>
+  <button id="intro-skip">Pular introdução</button>
+</div>
+
+<!-- ============ PERSISTENT 3D LAYER ============ -->
+<canvas id="webgl-canvas"></canvas>
+<div class="vignette"></div>
+<div class="grain"></div>
+
+<!-- ============ SCROLL CONNECTING LINE ============ -->
+<svg id="scroll-line-layer" viewBox="0 0 100 1900" preserveAspectRatio="none">
+  <path id="scroll-path" d="
+    M50,0
+    C50,40 20,60 20,110
+    C20,170 82,150 82,220
+    C82,290 15,270 15,340
+    C15,410 85,400 85,470
+    C85,540 50,520 50,590
+    C50,660 18,650 18,720
+    C18,790 84,770 84,840
+    C84,910 25,900 25,970
+    C25,1040 78,1030 78,1100
+    C78,1170 30,1160 30,1230
+    C30,1300 75,1290 75,1360
+    C75,1430 40,1420 40,1490
+    C40,1560 60,1550 60,1620
+    C60,1690 50,1700 50,1760
+    C50,1820 50,1860 50,1900
+  " fill="none" stroke="url(#lineGrad)" stroke-width="0.22" vector-effect="non-scaling-stroke"/>
+  <defs>
+    <linearGradient id="lineGrad" x1="0" y1="0" x2="0" y2="1" gradientUnits="objectBoundingBox">
+      <stop offset="0%" stop-color="#5eb3ff"/>
+      <stop offset="50%" stop-color="#d0d0d0"/>
+      <stop offset="100%" stop-color="#808080"/>
+    </linearGradient>
+  </defs>
+</svg>
+
+<!-- ============ NAV ============ -->
+<header class="site-nav">
+  <div class="container nav-row">
+    <a href="#top" class="nav-brand">
+      <svg viewBox="0 0 200 200"><use href="#ll-mark"/></svg>
+      <span class="brand-wordmark">LAUNCH LINE</span>
+    </a>
+    <nav>
+      <ul class="nav-links">
+        <li><a href="#servicos">O que fazemos</a></li>
+        <li><a href="#metodo">Método</a></li>
+        <li><a href="#diferencial">Diferencial</a></li>
+        <li><a href="#cases">Cases</a></li>
+      </ul>
+    </nav>
+    <a href="#contato" class="nav-cta">Falar com a Launch Line</a>
+    <button class="nav-toggle" aria-label="menu">☰</button>
+  </div>
+</header>
+
+<main id="top">
+
+  <!-- ============ HERO ============ -->
+  <section class="hero container">
+    <svg class="hero-sweep" viewBox="0 0 100 100" preserveAspectRatio="none">
+      <defs>
+        <linearGradient id="sweepGrad" x1="0%" y1="100%" x2="100%" y2="0%">
+          <stop offset="0%" stop-color="#5eb3ff" stop-opacity="0"/>
+          <stop offset="45%" stop-color="#bcd6ff" stop-opacity=".55"/>
+          <stop offset="62%" stop-color="#ffffff" stop-opacity=".9"/>
+          <stop offset="100%" stop-color="#e8eefc" stop-opacity="0"/>
+        </linearGradient>
+      </defs>
+      <path class="sweep-glow" d="M -10,74 C 20,68 30,98 52,90 C 74,82 82,35 118,4"/>
+      <path class="sweep-line" d="M -10,74 C 20,68 30,98 52,90 C 74,82 82,35 118,4"/>
+    </svg>
+
+    <div class="hero-corner hero-corner-tl">
+      IDEIAS<br>QUE VIRAM<br>RESULTADOS.
+      <span class="corner-dash"></span>
+    </div>
+    <div class="hero-taxonomy">
+      IA / MARKETING / AUTOMAÇÃO<br>
+      ESTRATÉGIA / NEGÓCIOS
+    </div>
+
+    <div class="hero-content">
+      <h1 class="display reveal">TECNOLOGIA QUE FAZ<br><em>NEGÓCIOS AVANÇAREM.</em></h1>
+      <p class="lead reveal">Conectamos inteligência artificial, automação, estratégia e tecnologia para transformar desafios empresariais em soluções reais.</p>
+      <div class="hero-ctas reveal">
+        <a href="#contato" class="btn btn-primary">Quero transformar meu negócio</a>
+        <a href="#metodo" class="btn btn-secondary">Como funciona</a>
+      </div>
+    </div>
+
+    <div class="hero-corner hero-corner-bl">
+      <span class="corner-dash"></span>
+      MAIS DO QUE TECNOLOGIA,<br>SOLUÇÕES REAIS.
+    </div>
+    <div class="hero-corner hero-corner-br">
+      <span class="corner-dash"></span>
+      LAUNCH LINE
+    </div>
+
+    <div class="scroll-cue">
+      <span>Role para explorar</span>
+      <div class="stick"></div>
+    </div>
+  </section>
+
+  <!-- ============ PROBLEMA ============ -->
+  <section class="section" id="problema">
+    <div class="container">
+      <div class="section-head reveal">
+        <p class="eyebrow">O PROBLEMA</p>
+        <h2 class="display">TECNOLOGIA NÃO É O OBJETIVO.</h2>
+        <p>Ferramentas novas aparecem todos os dias. Mas tecnologia, sozinha, não transforma um negócio. O verdadeiro resultado acontece quando inteligência, estratégia e execução trabalham juntas.</p>
+      </div>
+      <div class="chain" id="problem-chain">
+        <div class="chain-step" data-step>PROBLEMA</div>
+        <div class="chain-arrow" data-arrow></div>
+        <div class="chain-step" data-step>INTELIGÊNCIA</div>
+        <div class="chain-arrow" data-arrow></div>
+        <div class="chain-step" data-step>ESTRATÉGIA</div>
+        <div class="chain-arrow" data-arrow></div>
+        <div class="chain-step" data-step>TECNOLOGIA</div>
+        <div class="chain-arrow" data-arrow></div>
+        <div class="chain-step" data-step>RESULTADO</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ O QUE FAZEMOS ============ -->
+  <section class="section" id="servicos">
+    <div class="container">
+      <div class="section-head reveal">
+        <p class="eyebrow">O QUE FAZEMOS</p>
+        <h2 class="display">INTELIGÊNCIA APLICADA A NEGÓCIOS.</h2>
+      </div>
+    </div>
+    <div class="services-grid">
+      <div class="service-card reveal">
+        <span class="num">01</span>
+        <h3>Inteligência Artificial</h3>
+        <p>Aplicamos IA para melhorar processos, produtividade, atendimento, análise e tomada de decisão.</p>
+        <div class="card-line"></div>
+      </div>
+      <div class="service-card reveal">
+        <span class="num">02</span>
+        <h3>Automação</h3>
+        <p>Transformamos tarefas repetitivas em processos mais eficientes e escaláveis.</p>
+        <div class="card-line"></div>
+      </div>
+      <div class="service-card reveal">
+        <span class="num">03</span>
+        <h3>Estratégia</h3>
+        <p>Entendemos o problema antes de definir a tecnologia.</p>
+        <div class="card-line"></div>
+      </div>
+      <div class="service-card reveal">
+        <span class="num">04</span>
+        <h3>Marketing</h3>
+        <p>Conectamos posicionamento, aquisição, comunicação e conversão.</p>
+        <div class="card-line"></div>
+      </div>
+      <div class="service-card reveal">
+        <span class="num">05</span>
+        <h3>Tecnologia</h3>
+        <p>Criamos e implementamos soluções adequadas às necessidades do negócio.</p>
+        <div class="card-line"></div>
+      </div>
+      <div class="service-card reveal">
+        <span class="num">06</span>
+        <h3>Processos</h3>
+        <p>Identificamos gargalos e criamos caminhos mais eficientes.</p>
+        <div class="card-line"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ MÉTODO ============ -->
+  <section class="section" id="metodo">
+    <div class="container">
+      <div class="section-head reveal">
+        <p class="eyebrow">NOSSO MÉTODO</p>
+        <h2 class="display">DO PROBLEMA AO RESULTADO.</h2>
+      </div>
+      <div class="method-line-wrap">
+        <div id="method-progress" style="position:absolute;left:0;top:0;height:2px;width:0%;background:linear-gradient(90deg,var(--blue),var(--silver-4));"></div>
+      </div>
+      <div class="method-track" id="method-track">
+        <div class="method-step" data-method>
+          <div class="dot"></div>
+          <h4>01</h4>
+          <h3>Entender</h3>
+          <p>Ouvimos o negócio antes de propor qualquer solução.</p>
+        </div>
+        <div class="method-step" data-method>
+          <div class="dot"></div>
+          <h4>02</h4>
+          <h3>Diagnosticar</h3>
+          <p>Mapeamos processos, gargalos e oportunidades reais.</p>
+        </div>
+        <div class="method-step" data-method>
+          <div class="dot"></div>
+          <h4>03</h4>
+          <h3>Estrategizar</h3>
+          <p>Definimos o caminho antes de escolher a ferramenta.</p>
+        </div>
+        <div class="method-step" data-method>
+          <div class="dot"></div>
+          <h4>04</h4>
+          <h3>Implementar</h3>
+          <p>Aplicamos tecnologia, automação e IA com precisão.</p>
+        </div>
+        <div class="method-step" data-method>
+          <div class="dot"></div>
+          <h4>05</h4>
+          <h3>Evoluir</h3>
+          <p>Medimos, ajustamos e evoluímos com o negócio.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ DIFERENCIAL ============ -->
+  <section class="section diff-section container" id="diferencial">
+    <p class="eyebrow reveal">O DIFERENCIAL</p>
+    <h2 class="display diff-big reveal">VOCÊ NÃO PRECISA DE<br><span class="diff-strike" id="diff-tool">MAIS UMA FERRAMENTA.</span></h2>
+    <p class="diff-sub reveal">Precisa saber o que fazer com ela.</p>
+    <div class="diff-final reveal">
+      <span>Começamos pelo problema.</span>
+      <span>Depois encontramos a tecnologia.</span>
+    </div>
+  </section>
+
+  <!-- ============ CONEXÃO ============ -->
+  <section class="section" id="conexao">
+    <div class="container">
+      <div class="section-head reveal">
+        <p class="eyebrow">A CONEXÃO</p>
+        <h2 class="display">QUATRO FORÇAS. UM RESULTADO.</h2>
+      </div>
+      <div class="connect-wrap" id="connect-wrap">
+        <div class="connect-node" data-node style="left:50%; top:8%;"><div class="dot"></div><span>Estratégia</span></div>
+        <div class="connect-node" data-node style="left:92%; top:50%;"><div class="dot"></div><span>Tecnologia</span></div>
+        <div class="connect-node" data-node style="left:50%; top:92%;"><div class="dot"></div><span>Inteligência</span></div>
+        <div class="connect-node" data-node style="left:8%; top:50%;"><div class="dot"></div><span>Execução</span></div>
+        <div class="connect-center" id="connect-center"><span>RESULTADO</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ CASES ============ -->
+  <section class="section" id="cases">
+    <div class="container">
+      <div class="section-head reveal">
+        <p class="eyebrow">CASES</p>
+        <h2 class="display">RESULTADOS REAIS, EM CONSTRUÇÃO.</h2>
+        <p>Estamos estruturando os primeiros cases publicáveis da Launch Line. Cada projeto seguirá esta estrutura de apresentação.</p>
+      </div>
+      <div class="cases-grid">
+        <div class="case-card reveal">
+          <p class="eyebrow">CASE 01 · EM BREVE</p>
+          <div class="case-steps">
+            <div><b>Desafio</b><p>A ser publicado após conclusão do projeto.</p></div>
+            <div><b>Solução</b><p>A ser publicado após conclusão do projeto.</p></div>
+            <div><b>Implementação</b><p>A ser publicado após conclusão do projeto.</p></div>
+            <div><b>Resultado</b><p>A ser publicado após conclusão do projeto.</p></div>
+          </div>
+          <p class="case-placeholder-note">Espaço reservado para imagens, vídeo e métricas reais.</p>
+        </div>
+        <div class="case-card reveal">
+          <p class="eyebrow">CASE 02 · EM BREVE</p>
+          <div class="case-steps">
+            <div><b>Desafio</b><p>A ser publicado após conclusão do projeto.</p></div>
+            <div><b>Solução</b><p>A ser publicado após conclusão do projeto.</p></div>
+            <div><b>Implementação</b><p>A ser publicado após conclusão do projeto.</p></div>
+            <div><b>Resultado</b><p>A ser publicado após conclusão do projeto.</p></div>
+          </div>
+          <p class="case-placeholder-note">Espaço reservado para imagens, vídeo e métricas reais.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ PARA QUEM É ============ -->
+  <section class="section" id="para-quem">
+    <div class="container">
+      <div class="section-head reveal">
+        <p class="eyebrow">PARA QUEM É</p>
+        <h2 class="display">SE EXISTE UM PROBLEMA,<br>EXISTE UMA OPORTUNIDADE DE TRANSFORMAÇÃO.</h2>
+      </div>
+      <div class="problems-list">
+        <div class="problem-item reveal"><div class="tick"></div>Processos manuais</div>
+        <div class="problem-item reveal"><div class="tick"></div>Baixa produtividade</div>
+        <div class="problem-item reveal"><div class="tick"></div>Atendimento ineficiente</div>
+        <div class="problem-item reveal"><div class="tick"></div>Marketing sem estratégia</div>
+        <div class="problem-item reveal"><div class="tick"></div>Excesso de tarefas repetitivas</div>
+        <div class="problem-item reveal"><div class="tick"></div>Dificuldade de escala</div>
+        <div class="problem-item reveal"><div class="tick"></div>Falta de integração entre ferramentas</div>
+        <div class="problem-item reveal"><div class="tick"></div>Empresas que querem aplicar IA mas não sabem por onde começar</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ CTA FINAL ============ -->
+  <section class="final-cta container" id="cta-final">
+    <p class="eyebrow reveal">O PRÓXIMO PASSO</p>
+    <h2 class="display reveal">QUAL É O PRÓXIMO DESAFIO<br>DO SEU NEGÓCIO?</h2>
+    <p class="reveal">Conte o que está travando seu crescimento. Vamos entender o problema e encontrar caminhos para transformar tecnologia em resultado.</p>
+    <a href="#contato" class="btn btn-primary reveal" id="open-form-btn">Quero falar sobre meu negócio</a>
+  </section>
+
+  <!-- ============ CONTATO / FORM ============ -->
+  <section class="section" id="contato">
+    <div class="container">
+      <div class="section-head reveal" style="margin:0 auto; text-align:center;">
+        <p class="eyebrow">CONTATO</p>
+        <h2 class="display">CONTE SEU DESAFIO.</h2>
+      </div>
+      <form class="form-wrap open" id="contact-form">
+        <div class="form-row">
+          <div class="field">
+            <label for="f-nome">Nome</label>
+            <input id="f-nome" name="nome" type="text" required autocomplete="name">
+          </div>
+          <div class="field">
+            <label for="f-empresa">Empresa</label>
+            <input id="f-empresa" name="empresa" type="text" required autocomplete="organization">
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="field">
+            <label for="f-whats">WhatsApp</label>
+            <input id="f-whats" name="whatsapp" type="tel" required autocomplete="tel">
+          </div>
+          <div class="field">
+            <label for="f-email">E-mail</label>
+            <input id="f-email" name="email" type="email" required autocomplete="email">
+          </div>
+        </div>
+        <div class="field">
+          <label for="f-desafio">Qual é o principal desafio da sua empresa?</label>
+          <textarea id="f-desafio" name="desafio" required></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary form-submit">Enviar desafio</button>
+      </form>
+      <div class="form-success" id="form-success">
+        <strong>Desafio recebido.</strong>
+        Vamos analisar o que você compartilhou e retornar em breve.
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="container">
+  <div class="foot-brand">
+    <svg viewBox="0 0 200 200"><use href="#ll-mark"/></svg>
+    <span class="brand-wordmark">LAUNCH LINE</span>
+  </div>
+  <span>Mais do que tecnologia, soluções reais.</span>
+  <span>© <span id="year"></span> Launch Line</span>
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script type="importmap">
+{
+  "imports": {
+    "three": "https://cdn.jsdelivr.net/npm/three@0.149.0/build/three.module.js",
+    "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.149.0/examples/jsm/"
+  }
+}
+</script>
+<script type="module" src="js/scene.js"></script>
+<script src="js/intro.js"></script>
+<script src="js/main.js"></script>
+<script>document.getElementById('year').textContent = new Date().getFullYear();</script>
+</body>
+</html>
